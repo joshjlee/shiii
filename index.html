@@ -22,11 +22,11 @@ body {
   align-items: center;
   color: #cfcfcf;
   font-family: 'IBM Plex Mono', monospace;
-
 }
 
 .container {
   text-align: center;
+  max-width: 600px;
 }
 
 h1 {
@@ -40,6 +40,7 @@ h1 {
   font-size: 20px;
   margin-bottom: 15px;
   opacity: 0.7;
+  white-space: pre-wrap; /* preserve line breaks */
 }
 
 input {
@@ -70,7 +71,6 @@ input:focus {
   75% { transform: translateX(-6px); }
   100% { transform: translateX(0); }
 }
-
 </style>
 </head>
 
@@ -82,47 +82,105 @@ input:focus {
   <input type="password" id="passwordInput" autocomplete="off">
 </div>
 
-<!-- Hidden YouTube Audio Container -->
-<div id="youtubeAudio" style="display:none;"></div>
+<!-- Off-screen YouTube Audio Container -->
+<div id="youtubeAudio" style="position:absolute; left:-9999px;"></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-const correctPassword = "hello"; // change if needed
+const correctPassword = "hello";
 const input = document.getElementById("passwordInput");
 let player;
 
-// Required by YouTube API
+// your letter exactly as you wrote it
+const letterLines = [
+  "hi xs,",
+  "",
+  "i'm so glad i was able to meet you somehow",
+  "",
+  "from talking to you online and finally meeting you in hangzhou",
+  "",
+  "and every day since then",
+  "",
+  "i think about you",
+  "",
+  "even though we're different",
+  "",
+  "i feel like we understand each other",
+  "",
+  "but i want to be more like you",
+  "",
+  "let's spend a lot more time together",
+  "",
+  "so i can make you feel cared for and loved like how you do for me",
+  "",
+  "i love you",
+  "",
+  "- josh"
+];
+
+// YouTube API
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('youtubeAudio', {
     height: '0',
     width: '0',
-    videoId: 'Q4HyYE_cEo8',
-    playerVars: {
-      autoplay: 0,
-      controls: 0,
-      loop: 1,
-      playlist: 'Q4HyYE_cEo8'
-    }
+    videoId: '3Om6Ztel34Y',
+    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: '3Om6Ztel34Y', modestbranding: 1 }
   });
+}
+
+// fade in music
+function fadeInVolume(targetVolume = 30, duration = 3000) {
+  let currentVolume = 0;
+  player.setVolume(currentVolume);
+  player.unMute();
+
+  const step = targetVolume / (duration / 100);
+  const interval = setInterval(() => {
+    currentVolume += step;
+    if (currentVolume >= targetVolume) {
+      currentVolume = targetVolume;
+      clearInterval(interval);
+    }
+    player.setVolume(Math.round(currentVolume));
+  }, 100);
+}
+
+// type out letter line by line
+function typeLetter() {
+  const prompt = document.querySelector(".prompt");
+  prompt.innerHTML = "";
+  let i = 0;
+
+  function nextLine() {
+    if (i >= letterLines.length) return;
+    prompt.innerHTML += letterLines[i] + "\n";
+    i++;
+    setTimeout(nextLine, 400); // adjust speed here (ms between lines)
+  }
+
+  nextLine();
 }
 
 input.addEventListener("keypress", function(e) {
   if (e.key === "Enter") {
     if (input.value === correctPassword) {
 
-      // Start music
+      // play music
       if (player && player.playVideo) {
         player.playVideo();
+        fadeInVolume(30, 3000);
       }
 
-      // Optional: fade out input for romantic effect
+      // fade out input
       input.style.opacity = "0";
-      document.querySelector(".prompt").style.opacity = "0";
-
+      
+      // type the letter
+      const prompt = document.querySelector(".prompt");
+      prompt.style.opacity = "0";
       setTimeout(() => {
-        document.querySelector(".prompt").innerText = "♡";
-        document.querySelector(".prompt").style.opacity = "1";
+        prompt.style.opacity = "1";
+        typeLetter();
       }, 800);
 
     } else {
