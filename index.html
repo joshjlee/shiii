@@ -54,3 +54,82 @@
       text-transform: lowercase;
       color: #aaa;
     }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 0;
+      border: none;
+      background: #000;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      background: #111;
+    }
+
+    .error {
+      color: #f87171;
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .welcome {
+      font-size: 20px;
+      margin-top: 20px;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="container">
+    <h1>hi bb</h1>
+    <input type="password" id="passwordInput" placeholder="password">
+    <button onclick="checkPassword()">love u</button>
+    <div class="error" id="errorMessage">Incorrect password</div>
+    <div class="welcome" id="welcomeMessage">🎵 Welcome! Enjoy the music 🎵</div>
+  </div>
+
+  <!-- Hidden audio -->
+  <audio id="bgMusic" loop>
+    <source src="your-music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    function checkPassword() {
+      const correctPassword = "122525";
+      const userInput = document.getElementById("passwordInput").value;
+
+      if (userInput === correctPassword) {
+        // Hide input and button
+        document.getElementById("passwordInput").style.display = "none";
+        document.querySelector("button").style.display = "none";
+        document.getElementById("errorMessage").style.display = "none";
+
+        // Show welcome message
+        const welcome = document.getElementById("welcomeMessage");
+        welcome.classList.add("show");
+
+        // Start music
+        const music = document.getElementById("bgMusic");
+        music.play().catch(e => console.log("Autoplay blocked"));
+
+      } else {
+        document.getElementById("errorMessage").style.display = "block";
+      }
+    }
+  </script>
+
+</body>
+</html>
