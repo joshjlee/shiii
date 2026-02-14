@@ -7,105 +7,38 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-    }
-
-    body {
-      height: 100vh;
-      background: #2b2b2b;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-    }
-
-    .container {
-      background: #1a1a1a;
-      padding: 40px;
-      border-radius: 0;
-      text-align: center;
-      width: 320px;
-      transition: all 0.5s ease;
-    }
-
-    h1 {
-      font-size: 22px;
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      border-radius: 0;
-      border: none;
-      margin-bottom: 15px;
-      font-size: 14px;
-      background: #333;
-      color: white;
-    }
-
-    input::placeholder {
-      text-transform: lowercase;
-      color: #aaa;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 0;
-      border: none;
-      background: #000;
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s ease;
-    }
-
-    button:hover {
-      background: #111;
-    }
-
-    .error {
-      color: #f87171;
-      font-size: 13px;
-      margin-top: 10px;
-      display: none;
-    }
-
-    .welcome {
-      font-size: 20px;
-      margin-top: 20px;
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
-
-    .show {
-      opacity: 1;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Playfair Display',serif; font-style:italic; }
+    body { height:100vh; background:#2b2b2b; display:flex; align-items:center; justify-content:center; color:white; text-align:center; }
+    .container { background:#1a1a1a; padding:40px; width:400px; max-width:90%; border-radius:0; transition:all 0.5s ease; }
+    h1 { font-size:22px; margin-bottom:20px; font-weight:600; }
+    input { width:100%; padding:12px; border-radius:0; border:none; margin-bottom:15px; font-size:14px; background:#333; color:white; }
+    input::placeholder { text-transform:lowercase; color:#aaa; }
+    button { width:100%; padding:12px; border-radius:0; border:none; background:#000; color:white; font-weight:600; cursor:pointer; transition:0.2s ease; }
+    button:hover { background:#111; }
+    .error { color:#f87171; font-size:13px; margin-top:10px; display:none; }
+    .letter { margin-top:20px; opacity:0; transition:opacity 1s ease; white-space:pre-line; font-size:16px; }
+    .show { opacity:1; }
   </style>
 </head>
 <body>
 
-  <div class="container" id="container">
-    <h1>hi bb</h1>
-    <input type="password" id="passwordInput" placeholder="password">
-    <button onclick="checkPassword()">love u!</button>
-    <div class="error" id="errorMessage">Incorrect password</div>
-    <div class="welcome" id="welcomeMessage"></div>
+<div class="container">
+  <h1>hi bb</h1>
+  <input type="password" id="passwordInput" placeholder="password">
+  <button onclick="checkPassword()">love u!</button>
+  <div class="error" id="errorMessage">Incorrect password</div>
+
+  <!-- Valentine Letter -->
+  <div class="letter" id="valentineLetter">
+Dear love,  
+I hope this little surprise brightens your day.  
+Every moment with you feels like magic, and I can't wait to see you again.  
+Forever yours,  
+❤️
   </div>
+</div>
 
-  <!-- Hidden audio -->
-  <audio id="bgMusic" loop>
-    <source src="your-music.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
+<!-- YouTube IFrame API -->
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
   let player;
@@ -114,20 +47,13 @@
     player = new YT.Player('youtubeAudio', {
       height: '0',
       width: '0',
-      videoId: 'Q4HyYE_cEo8', // your video
-      playerVars: {
-        autoplay: 0, // start manually
-        controls: 0,
-        loop: 1,
-        playlist: 'Q4HyYE_cEo8'
-      }
+      videoId: 'Q4HyYE_cEo8',
+      playerVars: { autoplay:0, controls:0, loop:1, playlist:'Q4HyYE_cEo8' }
     });
   }
 
   function playYoutubeAudio() {
-    if (player && player.playVideo) {
-      player.playVideo();
-    }
+    if (player && player.playVideo) { player.playVideo(); }
   }
 
   function checkPassword() {
@@ -135,15 +61,12 @@
     const userInput = document.getElementById("passwordInput").value;
 
     if (userInput === correctPassword) {
-      // Hide input and button
       document.getElementById("passwordInput").style.display = "none";
       document.querySelector("button").style.display = "none";
       document.getElementById("errorMessage").style.display = "none";
 
-      // Show letter
       document.getElementById("valentineLetter").classList.add("show");
 
-      // Play YouTube audio
       playYoutubeAudio();
     } else {
       document.getElementById("errorMessage").style.display = "block";
@@ -156,3 +79,4 @@
 
 </body>
 </html>
+
