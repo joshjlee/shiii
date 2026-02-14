@@ -38,22 +38,28 @@ Forever yours,
   </div>
 </div>
 
-<!-- YouTube IFrame API -->
+<!-- Hidden iframe container for YouTube audio -->
+<div id="youtubeAudio"></div>
+
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
   let player;
 
-  function onYouTubeIframeAPIReady() {
+  function createYoutubePlayer() {
     player = new YT.Player('youtubeAudio', {
       height: '0',
       width: '0',
-      videoId: 'Q4HyYE_cEo8',
-      playerVars: { autoplay:0, controls:0, loop:1, playlist:'Q4HyYE_cEo8' }
+      videoId: 'Q4HyYE_cEo8', // Your YouTube video ID
+      playerVars: {
+        autoplay: 1,
+        controls: 0,
+        loop: 1,
+        playlist: 'Q4HyYE_cEo8'
+      },
+      events: {
+        'onReady': function(event) { event.target.playVideo(); }
+      }
     });
-  }
-
-  function playYoutubeAudio() {
-    if (player && player.playVideo) { player.playVideo(); }
   }
 
   function checkPassword() {
@@ -61,22 +67,21 @@ Forever yours,
     const userInput = document.getElementById("passwordInput").value;
 
     if (userInput === correctPassword) {
+      // Hide input and button
       document.getElementById("passwordInput").style.display = "none";
       document.querySelector("button").style.display = "none";
       document.getElementById("errorMessage").style.display = "none";
 
+      // Show letter
       document.getElementById("valentineLetter").classList.add("show");
 
-      playYoutubeAudio();
+      // Start YouTube audio
+      createYoutubePlayer();
     } else {
       document.getElementById("errorMessage").style.display = "block";
     }
   }
 </script>
 
-<!-- Hidden iframe container for YouTube API -->
-<div id="youtubeAudio"></div>
-
 </body>
 </html>
-
