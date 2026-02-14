@@ -77,7 +77,7 @@ input:focus {
 <body>
 
 <div class="container">
-  <h1>for xiaoshi</h1>
+  <h1 id="title">for xiaoshi</h1>
   <div class="prompt">from josh</div>
   <input type="password" id="passwordInput" autocomplete="off">
 </div>
@@ -114,9 +114,13 @@ const letterLines = [
   "",
   "so i can make you feel cared for and loved like how you do for me",
   "",
-  "i love you",
+  "happy valentine's day".
   "",
+  "i love you",
+  "".
   "- josh"
+  "p.s you're so beautiful",
+  "".
 ];
 
 // YouTube API
@@ -124,8 +128,8 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('youtubeAudio', {
     height: '0',
     width: '0',
-    videoId: '3Om6Ztel34Y',
-    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: '3Om6Ztel34Y', modestbranding: 1 }
+    videoId: 'Q4HyYE_cEo8',
+    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: 'Q4HyYE_cEo8', modestbranding: 1 }
   });
 }
 
@@ -174,6 +178,10 @@ input.addEventListener("keypress", function(e) {
 
       // fade out input
       input.style.opacity = "0";
+
+      // remove the "for xiaoshi" title
+      const title = document.getElementById("title");
+      if (title) title.style.display = "none";
       
       // type the letter
       const prompt = document.querySelector(".prompt");
