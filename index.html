@@ -16,18 +16,12 @@
 
 body {
   height: 100vh;
-  background: radial-gradient(circle at center, #1a0f14 0%, #000000 60%);
+  background: #000;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #f4dada;
+  color: #cfcfcf;
   font-family: 'Cormorant Garamond', serif;
-  opacity: 0;
-  animation: fadeIn 2s ease forwards;
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; }
 }
 
 .container {
@@ -38,29 +32,27 @@ h1 {
   font-size: 64px;
   font-style: italic;
   font-weight: 400;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
   letter-spacing: 1px;
-  text-shadow: 0 0 20px rgba(255, 182, 193, 0.15);
 }
 
 .prompt {
   font-size: 20px;
   margin-bottom: 15px;
-  opacity: 0.75;
-  transition: opacity 0.8s ease;
+  opacity: 0.7;
 }
 
 input {
   background: transparent;
   border: none;
-  border-bottom: 1px solid #caa;
-  color: #f4dada;
+  border-bottom: 1px solid #777;
+  color: #cfcfcf;
   font-size: 18px;
   padding: 8px;
   width: 200px;
   text-align: center;
   outline: none;
-  transition: 0.4s ease;
+  transition: 0.3s ease;
 }
 
 input:focus {
@@ -79,40 +71,28 @@ input:focus {
   100% { transform: translateX(0); }
 }
 
-.heart {
-  font-size: 28px;
-  margin-top: 20px;
-  opacity: 0;
-  transition: opacity 2s ease;
-}
-
-.show-heart {
-  opacity: 1;
-}
-
 </style>
 </head>
 
 <body>
 
 <div class="container">
-  <h1>my little airport</h1>
-  <div class="prompt">say the word.</div>
+  <h1>for xiaoshi</h1>
+  <div class="prompt">from josh</div>
   <input type="password" id="passwordInput" autocomplete="off">
-  <div class="heart" id="heart">♡</div>
 </div>
 
+<!-- Hidden YouTube Audio Container -->
 <div id="youtubeAudio" style="display:none;"></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-const correctPassword = "122525";
+const correctPassword = "hello"; // change if needed
 const input = document.getElementById("passwordInput");
 let player;
-let volumeInterval;
 
-// YouTube API
+// Required by YouTube API
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('youtubeAudio', {
     height: '0',
@@ -127,20 +107,6 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
-// Smooth volume fade-in
-function fadeInAudio() {
-  let volume = 0;
-  player.setVolume(volume);
-  volumeInterval = setInterval(() => {
-    if (volume < 50) {
-      volume += 2;
-      player.setVolume(volume);
-    } else {
-      clearInterval(volumeInterval);
-    }
-  }, 200);
-}
-
 input.addEventListener("keypress", function(e) {
   if (e.key === "Enter") {
     if (input.value === correctPassword) {
@@ -148,17 +114,16 @@ input.addEventListener("keypress", function(e) {
       // Start music
       if (player && player.playVideo) {
         player.playVideo();
-        fadeInAudio();
       }
 
-      // Fade out input + prompt
+      // Optional: fade out input for romantic effect
       input.style.opacity = "0";
       document.querySelector(".prompt").style.opacity = "0";
 
-      // Show heart
       setTimeout(() => {
-        document.getElementById("heart").classList.add("show-heart");
-      }, 1000);
+        document.querySelector(".prompt").innerText = "♡";
+        document.querySelector(".prompt").style.opacity = "1";
+      }, 800);
 
     } else {
       input.classList.add("shake");
