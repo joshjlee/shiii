@@ -106,42 +106,53 @@
     Your browser does not support the audio element.
   </audio>
 
-  <script>
-    function playYoutubeAudio() {
-    const iframe = document.createElement("iframe");
-    iframe.src = "https://www.youtube.com/embed/Q4HyYE_cEo8?autoplay=1&loop=1&controls=0&playlist=Q4HyYE_cEo8";
-    iframe.width = "0";  // hidden
-    iframe.height = "0"; // hidden
-    iframe.allow = "autoplay";
-    iframe.style.display = "none";
-    document.body.appendChild(iframe);
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+  let player;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('youtubeAudio', {
+      height: '0',
+      width: '0',
+      videoId: 'Q4HyYE_cEo8', // your video
+      playerVars: {
+        autoplay: 0, // start manually
+        controls: 0,
+        loop: 1,
+        playlist: 'Q4HyYE_cEo8'
+      }
+    });
   }
 
-    
-    
-    function checkPassword() {
-      const correctPassword = "122525";
-      const userInput = document.getElementById("passwordInput").value;
-
-      if (userInput === correctPassword) {
-        // Hide input and button
-        document.getElementById("passwordInput").style.display = "none";
-        document.querySelector("button").style.display = "none";
-        document.getElementById("errorMessage").style.display = "none";
-
-        // Show welcome message
-        const welcome = document.getElementById("welcomeMessage");
-        welcome.classList.add("show");
-
-        // Start music
-        const music = document.getElementById("bgMusic");
-        music.play().catch(e => console.log("Autoplay blocked"));
-
-      } else {
-        document.getElementById("errorMessage").style.display = "block";
-      }
+  function playYoutubeAudio() {
+    if (player && player.playVideo) {
+      player.playVideo();
     }
-  </script>
+  }
+
+  function checkPassword() {
+    const correctPassword = "122525";
+    const userInput = document.getElementById("passwordInput").value;
+
+    if (userInput === correctPassword) {
+      // Hide input and button
+      document.getElementById("passwordInput").style.display = "none";
+      document.querySelector("button").style.display = "none";
+      document.getElementById("errorMessage").style.display = "none";
+
+      // Show letter
+      document.getElementById("valentineLetter").classList.add("show");
+
+      // Play YouTube audio
+      playYoutubeAudio();
+    } else {
+      document.getElementById("errorMessage").style.display = "block";
+    }
+  }
+</script>
+
+<!-- Hidden iframe container for YouTube API -->
+<div id="youtubeAudio"></div>
 
 </body>
 </html>
