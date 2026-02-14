@@ -95,9 +95,9 @@
   <div class="container" id="container">
     <h1>hi bb</h1>
     <input type="password" id="passwordInput" placeholder="password">
-    <button onclick="checkPassword()">love u</button>
+    <button onclick="checkPassword()">love u!</button>
     <div class="error" id="errorMessage">Incorrect password</div>
-    <div class="welcome" id="welcomeMessage">🎵 Welcome! Enjoy the music 🎵</div>
+    <div class="welcome" id="welcomeMessage"></div>
   </div>
 
   <!-- Hidden audio -->
@@ -107,6 +107,18 @@
   </audio>
 
   <script>
+    function playYoutubeAudio() {
+    const iframe = document.createElement("iframe");
+    iframe.src = "https://www.youtube.com/embed/Q4HyYE_cEo8?autoplay=1&loop=1&controls=0&playlist=Q4HyYE_cEo8";
+    iframe.width = "0";  // hidden
+    iframe.height = "0"; // hidden
+    iframe.allow = "autoplay";
+    iframe.style.display = "none";
+    document.body.appendChild(iframe);
+  }
+
+    
+    
     function checkPassword() {
       const correctPassword = "122525";
       const userInput = document.getElementById("passwordInput").value;
