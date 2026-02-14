@@ -1,86 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Protected</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>♡</title>
 
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Playfair Display',serif; font-style:italic; }
-    body { height:100vh; background:#2b2b2b; display:flex; align-items:center; justify-content:center; color:white; text-align:center; }
-    .container { background:#1a1a1a; padding:40px; width:400px; max-width:90%; border-radius:0; transition:all 0.5s ease; }
-    h1 { font-size:22px; margin-bottom:20px; font-weight:600; }
-    input { width:100%; padding:12px; border-radius:0; border:none; margin-bottom:15px; font-size:14px; background:#333; color:white; }
-    input::placeholder { text-transform:lowercase; color:#aaa; }
-    button { width:100%; padding:12px; border-radius:0; border:none; background:#000; color:white; font-weight:600; cursor:pointer; transition:0.2s ease; }
-    button:hover { background:#111; }
-    .error { color:#f87171; font-size:13px; margin-top:10px; display:none; }
-    .letter { margin-top:20px; opacity:0; transition:opacity 1s ease; white-space:pre-line; font-size:16px; }
-    .show { opacity:1; }
-  </style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #cfcfcf;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  font-size: 64px;
+  font-style: italic;
+  font-weight: 400;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+.prompt {
+  font-size: 20px;
+  margin-bottom: 15px;
+  opacity: 0.7;
+}
+
+input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #777;
+  color: #cfcfcf;
+  font-size: 18px;
+  padding: 8px;
+  width: 200px;
+  text-align: center;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+input:focus {
+  border-bottom: 1px solid #fff;
+}
+
+.shake {
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-6px); }
+  100% { transform: translateX(0); }
+}
+
+</style>
 </head>
+
 <body>
 
 <div class="container">
-  <h1>hi bb</h1>
-  <input type="password" id="passwordInput" placeholder="password">
-  <button onclick="checkPassword()">love u!</button>
-  <div class="error" id="errorMessage">Incorrect password</div>
-
-  <!-- Valentine Letter -->
-  <div class="letter" id="valentineLetter">
-Dear love,  
-I hope this little surprise brightens your day.  
-Every moment with you feels like magic, and I can't wait to see you again.  
-Forever yours,  
-❤️
-  </div>
+  <h1>my little airport</h1>
+  <div class="prompt">say the word.</div>
+  <input type="password" id="passwordInput" autocomplete="off">
 </div>
 
-<!-- Hidden iframe container for YouTube audio -->
-<div id="youtubeAudio"></div>
+<!-- Hidden YouTube Audio Container -->
+<div id="youtubeAudio" style="display:none;"></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
-  let player;
+const correctPassword = "122525"; // change if needed
+const input = document.getElementById("passwordInput");
+let player;
 
-  function createYoutubePlayer() {
-    player = new YT.Player('youtubeAudio', {
-      height: '0',
-      width: '0',
-      videoId: 'Q4HyYE_cEo8', // Your YouTube video ID
-      playerVars: {
-        autoplay: 1,
-        controls: 0,
-        loop: 1,
-        playlist: 'Q4HyYE_cEo8'
-      },
-      events: {
-        'onReady': function(event) { event.target.playVideo(); }
+// Required by YouTube API
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('youtubeAudio', {
+    height: '0',
+    width: '0',
+    videoId: 'Q4HyYE_cEo8',
+    playerVars: {
+      autoplay: 0,
+      controls: 0,
+      loop: 1,
+      playlist: 'Q4HyYE_cEo8'
+    }
+  });
+}
+
+input.addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    if (input.value === correctPassword) {
+
+      // Start music
+      if (player && player.playVideo) {
+        player.playVideo();
       }
-    });
-  }
 
-  function checkPassword() {
-    const correctPassword = "122525";
-    const userInput = document.getElementById("passwordInput").value;
+      // Optional: fade out input for romantic effect
+      input.style.opacity = "0";
+      document.querySelector(".prompt").style.opacity = "0";
 
-    if (userInput === correctPassword) {
-      // Hide input and button
-      document.getElementById("passwordInput").style.display = "none";
-      document.querySelector("button").style.display = "none";
-      document.getElementById("errorMessage").style.display = "none";
+      setTimeout(() => {
+        document.querySelector(".prompt").innerText = "♡";
+        document.querySelector(".prompt").style.opacity = "1";
+      }, 800);
 
-      // Show letter
-      document.getElementById("valentineLetter").classList.add("show");
-
-      // Start YouTube audio
-      createYoutubePlayer();
     } else {
-      document.getElementById("errorMessage").style.display = "block";
+      input.classList.add("shake");
+      setTimeout(() => input.classList.remove("shake"), 400);
+      input.value = "";
     }
   }
+});
 </script>
 
 </body>
